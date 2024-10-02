@@ -1,0 +1,7 @@
+black
+flask_session
+flask
+sqlalchemy
+flask-sqlalchemy
+Submit50
+requests
