@@ -86,6 +86,7 @@
                 }
             }
 
+
         </script>
     </head>
 
@@ -118,6 +119,14 @@
                 </div>
             </div>
         </nav>
+
+        <div id="jumbo" class="jumbotron mx-auto text-center">
+            <div class="container-fluid">
+                <h1 class="display-4" id="title">{% block jumbo_title %}{% endblock %}</h1>
+                <p class="lead" id="jumbo_message">{% block jumbo_message %}{% endblock %}</p>
+                <hr class="my-4">
+            </div>
+        </div>
 
         {% if get_flashed_messages() %}
             <header>

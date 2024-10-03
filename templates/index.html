@@ -5,14 +5,11 @@
 {% endblock %}
 
 
+{% block jumbo_title %}Welcome to <span class="heading heading--3">Quote Vault</span>{% endblock %}
+{% block jumbo_message %}Save your favorites &#128172;{% endblock %}
+
 {% block main %}
-    <div id="jumbo" class="jumbotron">
-        <div class="container-fluid">
-            <h1 class="display-4" id="title">Welcome to Quote Vault</h1>
-            <p class="lead">Save your favorites &#128172;</p>
-            <hr class="my-4">
-        </div>
-    </div>
+
     <div class="quote-container">
         <div class="quote-box">
             <p id="quote">{{ quote }}</p>

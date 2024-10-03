@@ -1,13 +1,15 @@
 {% extends "layout.html" %}
 
 {% block title %}
-
+Favorites
 {% endblock %}
 
+{% block jumbo_title %}Favorites{% endblock %}
+{% block jumbo_message %}Enjoy &#128513;{% endblock %}
 
 {% block main %}
+
     <div class="favorites-container">
-        <h2 class=""mb-4">Your Favorite Quotes</h2>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for favorite in favorites %}
             <div class="col">
