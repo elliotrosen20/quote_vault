@@ -31,14 +31,15 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
+API_KEY = "L0G2M5pDJCbsZ6mD26CLtg==xOiqMbRG6ZUuGwOL"
+HEADERS = {
+    "X-Api-Key": API_KEY
+}
+
 @app.route("/")
 @login_required
 def index():
-    api_key = "L0G2M5pDJCbsZ6mD26CLtg==xOiqMbRG6ZUuGwOL"
-    headers = {
-        "X-Api-Key": api_key
-    }
-    response = requests.get("https://api.api-ninjas.com/v1/quotes", headers=headers)
+    response = requests.get("https://api.api-ninjas.com/v1/quotes", headers=HEADERS)
     if response.status_code == 200:
         quote_data = response.json()  # Parse the JSON response
         quote = quote_data[0]["quote"]
@@ -46,6 +47,19 @@ def index():
     else:
         return render_template("error.html")
     return render_template("index.html", quote=quote, author=author)
+
+@app.route("/quote")
+@login_required
+def quote():
+    response = requests.get("https://api.api-ninjas.com/v1/quotes", headers=HEADERS)
+    if response.status_code == 200:
+        quote_data = response.json()  # Parse the JSON response
+        quote = quote_data[0]["quote"]
+        author = quote_data[0]["author"]
+        return jsonify({"quote": quote, "author": author})
+    else:
+        return jsonify({"error": "Error fetching quote"}), 500
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

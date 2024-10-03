@@ -6,5 +6,10 @@
 
 
 {% block main %}
-    <p> main page </p>
+    <h1>Welcome to Quote Vault</h1>
+    <div class="quote-container">
+        <p id="quote">{{ quote }}</p>
+        <p id="author">{{ author }}</p>
+    </div>
+    <button class="button-30" type="button" onclick="getQuote()">Change quote</button>
 {% endblock %}
