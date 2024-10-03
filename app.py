@@ -18,7 +18,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///quotes.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-class User(db.Model):
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+class Users(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -26,7 +28,18 @@ class User(db.Model):
     hash = db.Column(db.String(128), nullable=False)
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f"<Users {self.username}>"
+
+class Favorites(db.Model):
+    __tablename__ = "favorites"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    quote = db.Column(db.String(1000), unique=True, nullable=False)
+    author = db.Column(db.String(300), nullable=False)
+
+    def __repr__(self):
+        return f"<Favorites {self.id}: {self.quote} by {self.author}>"
 
 with app.app_context():
     db.create_all()
@@ -139,6 +152,44 @@ def register():
 
     # User reached route via GET (as by clicking a link or via redirect)
     return render_template("register.html")
+
+
+@app.route("/toggle_favorite", methods=["POST"])
+@login_required
+def toggle_favorite():
+    data = request.get_json()
+    quote = data.get("quote")
+    author = data.get("author")
+    action = data.get("action")
+
+    if action == "add":
+        try:    
+            new_favorite = Favorites(
+                user_id=session["user_id"],
+                quote=quote,
+                author=author
+            )
+            db.session.add(new_favorite)
+            db.session.commit()
+            return jsonify({"success": True}), 200
+        except IntegrityError:
+            db.session.rollback()
+            return jsonify({"error": "Quote already in favorites"}), 400
+    else:
+        favorite = Favorites.query.filter_by(
+            user_id=session["user_id"],
+            quote=quote
+        ).first()
+        if favorite:
+            db.session.delete(favorite)
+            db.session.commit()
+        return jsonify({"success": True}), 200
+
+@app.route("/favorites")
+@login_required
+def favorites():
+    user_favorites = Favorites.query.filter_by(user_id=session["user_id"]).all()
+    return render_template("favorites.html", favorites=user_favorites)
 
 if __name__ == "__main__":
     app.run(debug=True)

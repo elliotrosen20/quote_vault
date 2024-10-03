@@ -6,10 +6,25 @@
 
 
 {% block main %}
-    <h1>Welcome to Quote Vault</h1>
+    <div id="jumbo" class="jumbotron">
+        <div class="container-fluid">
+            <h1 class="display-4" id="title">Welcome to Quote Vault</h1>
+            <p class="lead">Save your favorites &#128172;</p>
+            <hr class="my-4">
+        </div>
+    </div>
     <div class="quote-container">
-        <p id="quote">{{ quote }}</p>
+        <div class="quote-box">
+            <p id="quote">{{ quote }}</p>
+        </div>
         <p id="author">{{ author }}</p>
     </div>
-    <button class="button-30" type="button" onclick="getQuote()">Change quote</button>
+    <div class="button-container">   
+        <button class="button-30" type="button" onclick="getQuote()">Change quote</button>
+        <div class="heart-button" onclick="toggleFavorite()"></div>
+    </div>
+
+
+
+
 {% endblock %}

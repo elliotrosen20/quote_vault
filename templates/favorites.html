@@ -6,5 +6,22 @@
 
 
 {% block main %}
-    <p>favorites</p>
+    <div class="favorites-container">
+        <h2 class=""mb-4">Your Favorite Quotes</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for favorite in favorites %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <p class="card-text quote-text">{{ favorite.quote }}</p>
+                        <p class="card-text author-text">- {{ favorite.author }}</p>
+                        <button class="btn btn-danger remove-favorite" onclick="toggleFavorite(this)" data-quote="{{ favorite.quote }}" data-author="{{ favorite.author }}">
+                            Remove from Favorites
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
