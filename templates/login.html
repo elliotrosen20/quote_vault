@@ -4,10 +4,8 @@
     Log In
 {% endblock %}
 
-{% block jumbo_title %}Quote Vault{% endblock %}
-{% block jumbo_message %}Log In{% endblock %}
-
 {% block main %}
+    <!--
     <form action="/login" method="post">
         <div class="mb-3">
             <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
@@ -26,4 +24,45 @@
             showAlert("{{ error|e }}");
         };
     </script>
+-->
+
+    <div class = "container">
+        <div class="left-content">
+            <h1>Welcome to Quote Vault</h1>
+            <p>Here, you can save quotes from a random quote generator.</p>
+            <p>Explore the greatest aphorisms from the most influential people to walk the Earth.</p>
+        </div>
+        <div class="right-content">
+            <form action="/login" method="post">
+                <h2 id="login">Log In</h2>
+                <div class="mb-3">
+                    <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
+                </div>
+                <button id="login_button" class="btn btn-primary" type="submit">Log In</button>
+            </form>
+            <p id="registerText" class="text-center mt-1">
+                Don't have an account? <a href="register.html" id="register">Register Here.</a>
+            </p>
+        </div>
+    </div>
+    <script>
+        // Call showAlert when the page loads
+        window.onload = function() {
+            showAlert("{{ error|e }}");
+        };
+    </script>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+    </style>
+
 {% endblock %}
