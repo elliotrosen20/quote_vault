@@ -64,9 +64,10 @@ Favorites
                             }
                         </script>
                         <button class="btn btn-danger remove-favorite"
+                                id="remove-favorite-{{ loop.index }}"
                                 data-quote='{{ favorite.quote | tojson }}'
                                 data-author='{{ favorite.author | tojson }}'
-                                onclick="removeFavorite(getFavoriteData(this))">
+                                onclick="removeFavorite(getFavoriteData(this), 'remove-favorite-{{ loop.index }}')">
                                 Remove from Favorites
                         </button>
                     </div>

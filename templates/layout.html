@@ -98,7 +98,13 @@
                 toggleFavorite(!isActive);
             }
             
-            function removeFavorite(favoriteData) {
+            function escapeSelector(string) {
+                // Remove backslashes before escaping special characters
+                const cleanedString = string.replace(/\\/g, ''); // Remove all backslashes
+                return cleanedString.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g, '\\$1'); // Escape special characters
+            }
+
+            function removeFavorite(favoriteData, buttonId) {
                 /*
                 const qText = quote.replace(/^"|"$/g, '');  // Removes leading and trailing double quotes
                 const aText = author.replace(/^"|"$/g, ''); 
@@ -129,18 +135,24 @@
                         action: "remove" // Always removing since this button is for removal
                     })
                 })
-                /*
+                
                 .then(response => {
                     if (response.ok) {
                         console.log("Favorite removed successfully.");
                         // Remove the card from the DOM
-                        button.closest('.col').remove();
+                        const cardElement = document.getElementById(buttonId).closest('.col');
+                        if (cardElement) {
+                            cardElement.remove(); // Remove the parent card
+                            console.log("Card removed from the DOM.");
+                        } else {
+                            console.error("Card not found in the DOM.");
+                        }
                     } else {
                         console.error("Failed to remove favorite.");
                         // Handle the error appropriately
                     }
                 });
-                */
+                
                 
             }
         </script>
