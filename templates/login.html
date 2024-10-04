@@ -4,6 +4,9 @@
     Log In
 {% endblock %}
 
+{% block jumbo_title %}Quote Vault{% endblock %}
+{% block jumbo_message %}Log In{% endblock %}
+
 {% block main %}
     <form action="/login" method="post">
         <div class="mb-3">
@@ -14,6 +17,9 @@
         </div>
         <button class="btn btn-primary" type="submit">Log In</button>
     </form>
+    <p id="registerText" class="text-center mt-1">
+        Don't have an account? <a href="register.html" id="register">Register Here.</a>
+    </p>
     <script>
         // Call showAlert when the page loads
         window.onload = function() {

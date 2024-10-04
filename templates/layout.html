@@ -23,6 +23,7 @@
                     alert(message);
                 }
             }
+
             function getQuote() {
                 fetch("/quote")
                     .then(response => {
@@ -34,6 +35,8 @@
                     .then(data => {
                         document.getElementById("quote").innerText = data.quote;
                         document.getElementById("author").innerText = data.author;
+                        const heartButton = document.querySelector(".heart-button");
+                        heartButton.classList.remove("active");
                     })
                     .catch(error => {
                         document.getElementById("quote").innerText = "Couldn't fetch quote.";
@@ -53,15 +56,22 @@
                 }
             }
                 */
-            
-            function toggleFavorite() {
+
+            function toggleFavorite(isActive) {
                 const quoteText = document.getElementById("quote").textContent;
                 const authorText = document.getElementById("author").textContent;
                 const heartButton = document.querySelector(".heart-button");
-
-                heartButton.classList.toggle("active");
-
-                const isActive = heartButton.classList.contains("active");
+                
+                if (isActive) {
+                    heartButton.classList.add("active")
+                    console.log("Heart is clicked!");
+                } else {
+                    heartButton.classList.remove("active");
+                    console.log("Heart is unclicked!");
+                }
+                /*heartButton.classList.toggle("active");*/
+                
+                /*const isActive = heartButton.classList.contains("active");*/
 
                 fetch("/toggle_favorite", {
                     method: "POST",
@@ -77,15 +87,42 @@
                 .then(response => {
                     if (!response.ok) {
                         heartButton.classList.toggle("active");
+                        console.error("Failed to toggle favorite.");
                     }
                 })
-                if (heartButton.classList.contains("active")) {
-                    console.log("Heart is clicked!");
-                } else {
-                    console.log("Heart is unclocked");
-                }
             }
 
+            function handleHeartButtonClick() {
+                const heartButton = document.querySelector(".heart-button")
+                const isActive = heartButton.classList.contains("active")
+                toggleFavorite(!isActive);
+            }
+
+            function removeFavorite(button) {
+                const quoteText = button.getAttribute("data-quote")
+                const authorText = button.getAttribute("data-author")
+                fetch("/toggle_favorite", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        quote: quoteText,
+                        author: authorText,
+                        action: "remove" // Always removing since this button is for removal
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Favorite removed successfully.");
+                        // Remove the card from the DOM
+                        button.closest('.col').remove();
+                    } else {
+                        console.error("Failed to remove favorite.");
+                        // Handle the error appropriately
+                    }
+                });
+            }
 
         </script>
     </head>

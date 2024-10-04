@@ -17,7 +17,10 @@ Favorites
                     <div class="card-body">
                         <p class="card-text quote-text">{{ favorite.quote }}</p>
                         <p class="card-text author-text">- {{ favorite.author }}</p>
-                        <button class="btn btn-danger remove-favorite" onclick="toggleFavorite(this)" data-quote="{{ favorite.quote }}" data-author="{{ favorite.author }}">
+                        <button class="btn btn-danger remove-favorite"
+                                data-quote = "{{ favorite.quote|tojson }}"
+                                author-quote = "{{ favorite.author|tojson }}"
+                                onclick="removeFavorite(this)">
                             Remove from Favorites
                         </button>
                     </div>
