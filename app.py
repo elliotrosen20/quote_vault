@@ -162,6 +162,17 @@ def toggle_favorite():
     author = data.get("author")
     action = data.get("action")
 
+    print(f"Quote sent from frontend: {quote}")
+
+    # Check if the favorite exists in the database
+    stored_favorite = Favorites.query.filter_by(
+        user_id=session["user_id"],
+        quote=quote
+    ).first()
+    
+    print(f"Stored favorite in database: {stored_favorite.quote if stored_favorite else 'None'}")
+
+
     if action == "add":
         try:    
             new_favorite = Favorites(
@@ -176,17 +187,18 @@ def toggle_favorite():
             db.session.rollback()
             return jsonify({"error": "Quote already in favorites"}), 400
     else:
-        try:    
-            favorite = Favorites.query.filter_by(
-                user_id=session["user_id"],
-                quote=quote
-            ).first()
-            if favorite:
-                db.session.delete(favorite)
+        try:
+            if stored_favorite:
+                print("Deleting favorite...")
+                db.session.delete(stored_favorite)
                 db.session.commit()
+                print("Favorite deleted successfully.")
+            else:
+                print("Favorite not found.")
             return jsonify({"success": True}), 200
         except Exception as e:
             db.session.rollback()
+            print(f"Error occurred: {str(e)}")
             return jsonify({"error": str(e)}), 500
 
 @app.route("/favorites")

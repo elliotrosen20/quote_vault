@@ -97,21 +97,39 @@
                 const isActive = heartButton.classList.contains("active")
                 toggleFavorite(!isActive);
             }
+            
+            function removeFavorite(favoriteData) {
+                /*
+                const qText = quote.replace(/^"|"$/g, '');  // Removes leading and trailing double quotes
+                const aText = author.replace(/^"|"$/g, ''); 
+                */
+                /*
+                const qText = fa.getAttribute("data-quote")
+                const aText = button.getAttribute("data-author")
+                */
 
-            function removeFavorite(button) {
-                const quoteText = button.getAttribute("data-quote")
-                const authorText = button.getAttribute("data-author")
+                const qText = favoriteData.quote; // Destructure to get quote
+                const aText = favoriteData.author;
+                console.log("Quote being sent for removal:", qText);
+                console.log("Author being sent for removal:", aText);
+
+                /*
+                console.log("Quote being sent for removal:", qText);
+                console.log("Author being sent for removal:", aText);
+*/
+
                 fetch("/toggle_favorite", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        quote: quoteText,
-                        author: authorText,
+                        quote: qText,
+                        author: aText,
                         action: "remove" // Always removing since this button is for removal
                     })
                 })
+                /*
                 .then(response => {
                     if (response.ok) {
                         console.log("Favorite removed successfully.");
@@ -122,8 +140,9 @@
                         // Handle the error appropriately
                     }
                 });
+                */
+                
             }
-
         </script>
     </head>
 
