@@ -176,14 +176,18 @@ def toggle_favorite():
             db.session.rollback()
             return jsonify({"error": "Quote already in favorites"}), 400
     else:
-        favorite = Favorites.query.filter_by(
-            user_id=session["user_id"],
-            quote=quote
-        ).first()
-        if favorite:
-            db.session.delete(favorite)
-            db.session.commit()
-        return jsonify({"success": True}), 200
+        try:    
+            favorite = Favorites.query.filter_by(
+                user_id=session["user_id"],
+                quote=quote
+            ).first()
+            if favorite:
+                db.session.delete(favorite)
+                db.session.commit()
+            return jsonify({"success": True}), 200
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 500
 
 @app.route("/favorites")
 @login_required
@@ -191,5 +195,34 @@ def favorites():
     user_favorites = Favorites.query.filter_by(user_id=session["user_id"]).all()
     return render_template("favorites.html", favorites=user_favorites)
 
+
+"""
+@app.route("/remove_favorite")
+@login_required
+def remove_favorite:
+    data = request.get_json()
+    quote = data.get_json()
+
+    if not quote:
+        return jsonify({"error": "Quote not provided"}), 400
+    
+    try:
+        favorite = Favorites.query.filter_by(
+            uer_id = session["user_id"],
+            quote = quote
+        )
+        if favorite:
+            db.session.delete(favorite)
+            db.session.commit()
+            return jsonify({"success": True}), 200
+        else:
+            return jsonify({"error": "Favorite not found"}), 404
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+"""
+
 if __name__ == "__main__":
     app.run(debug=True)
+
