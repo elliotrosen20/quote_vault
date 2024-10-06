@@ -9,7 +9,6 @@ from helpers import login_required
 
 app = Flask(__name__)
 
-# Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -76,17 +75,13 @@ def quote():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    """Log user in"""
 
-    # Forget any user_id
     session.clear()
 
-    # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
         
-        # Query database for username
         user = db.session.execute(text("SELECT id, hash FROM users WHERE username = :username;"), 
             {"username": username}).fetchone()
         if user is None:
@@ -95,34 +90,26 @@ def login():
         id = user[0]
         hash = user[1]
 
-        # Ensure username exists and password is correct
         if not check_password_hash(hash, password):
             return render_template("login.html", error="Invalid username and/or password")
 
-        # Remember which user has logged in
         session["user_id"] = id
 
-        # Redirect user to home page
         return redirect("/")
 
-    # User reached route via GET (as by clicking a link or via redirect)
     return render_template("login.html")
 
 
 @app.route("/logout")
 def logout():
-    """Log user out"""
 
-    # Forget any user_id
     session.clear()
 
-    # Redirect user to login form
     return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        # Ensure username was submitted
         username = request.form.get("username")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
@@ -147,10 +134,8 @@ def register():
 
         session["user_id"] = user_id
 
-        # Redirect user to home page
         return redirect("/")
 
-    # User reached route via GET (as by clicking a link or via redirect)
     return render_template("register.html")
 
 
@@ -164,7 +149,6 @@ def toggle_favorite():
 
     print(f"Quote sent from frontend: {quote}")
 
-    # Check if the favorite exists in the database
     stored_favorite = Favorites.query.filter_by(
         user_id=session["user_id"],
         quote=quote
@@ -207,33 +191,6 @@ def favorites():
     user_favorites = Favorites.query.filter_by(user_id=session["user_id"]).all()
     return render_template("favorites.html", favorites=user_favorites)
 
-
-"""
-@app.route("/remove_favorite")
-@login_required
-def remove_favorite:
-    data = request.get_json()
-    quote = data.get_json()
-
-    if not quote:
-        return jsonify({"error": "Quote not provided"}), 400
-    
-    try:
-        favorite = Favorites.query.filter_by(
-            uer_id = session["user_id"],
-            quote = quote
-        )
-        if favorite:
-            db.session.delete(favorite)
-            db.session.commit()
-            return jsonify({"success": True}), 200
-        else:
-            return jsonify({"error": "Favorite not found"}), 404
-
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"error": str(e)}), 500
-"""
 
 if __name__ == "__main__":
     app.run(debug=True)
