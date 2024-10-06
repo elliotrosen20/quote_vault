@@ -4,7 +4,6 @@ body {
 
 #quote {
   font-size: 24px;
-  /*font-style: italic;*/
   font-family: "Georgia", serif;
 }
 
@@ -14,7 +13,6 @@ body {
 }
 
 .quote-box {
-  /*border: 2px solid #2ecc71;*/
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -24,7 +22,7 @@ body {
 .quote-container { 
   background-color: #ffffff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;  /* Center the container */
+  margin: 0 auto;
   border: 3px solid #2ecc71;
   border-style: groove;
   padding: 20px;
@@ -124,15 +122,38 @@ a:hover{
   to { opacity: 1; }
 }
 
-#title {
+#index_title {
   font-weight: bold;
   padding-bottom: 15px;
-  padding-top: 20px;
+  padding-top: 5px;
   animation: fadeIn 4s ease-in-out;
 }
 
-#jumbo_message {
+#index_message {
   font-size: 1.5rem;
+  padding-bottom: 30px;
+  animation: fadeIn 4s ease-in-out;
+}
+
+#favorites_title {
+  font-weight: bold;
+  padding-bottom: 15px;
+  padding-top: 0px;
+}
+
+#favorites_message {
+  font-size: 1.5rem;
+}
+
+#register_title {
+  font-weight: bold;
+  padding-bottom: 15px;
+  padding-top: 0px;
+}
+
+#register_message {
+  font-size: 1.5rem;
+  padding-bottom: 15px;
 }
 
 .heart-button{
@@ -211,7 +232,6 @@ a:hover{
   margin-top: auto;
 }
 
-/* Add smooth scrollbar for overflow content */
 .card-body::-webkit-scrollbar {
   width: 8px;
 }
@@ -254,7 +274,7 @@ a:hover{
 .heading {
   display: inline;
   position: relative;
-  padding-bottom: 0.2em; /* Space between the text and the underline */
+  padding-bottom: 0.2em;
 }
 
 .heading::after {
@@ -263,28 +283,19 @@ a:hover{
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 5px; /* Underline thickness */
-  background: linear-gradient(90deg, transparent, #ff0000, transparent); /* Red underline */
+  height: 5px;
+  background: linear-gradient(90deg, transparent, #ff0000, transparent);
   z-index: -1;
 }
 
 .heading--3 {
   font-size: 3rem;
   font-weight: bold;
-  --underline-width: 5px;  /* Adjust the thickness of the underline */
-  --underline-color: #ff0000;  /* Red underline color */
-  --underline-offset-y: -2px;  /* Adjust the underline's position */
+  --underline-width: 5px;
+  --underline-color: #ff0000;
+  --underline-offset-y: -2px;
 }
-/*
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 50px;
-  max-width: 1600px;
-  margin: 0 auto;
-}
-*/
+
 .left-content {
   flex: 1;
   padding-right: 50px;
@@ -319,14 +330,12 @@ a:hover{
   display: flex;
   flex-direction: column;
 }
-  
 
 .right-content input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 
 .right-content .btn-primary {
   background-color: #007bff;
@@ -350,20 +359,19 @@ a:hover{
   text-decoration: underline;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .container {
-      flex-direction: column; /* Stack the left and right content vertically */
+      flex-direction: column;
       padding: 20px;
   }
 
   .left-content {
-      padding-right: 0; /* Remove the padding on small screens */
+      padding-right: 0;
       margin-bottom: 20px;
   }
 
   .right-content {
-      width: 100%; /* Ensure the login form takes up full width on mobile */
+      width: 100%;
       flex-basis: auto;
   }
 }

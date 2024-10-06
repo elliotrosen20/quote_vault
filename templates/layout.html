@@ -14,148 +14,6 @@
         <link href="/static/styles.css" rel="stylesheet">
 
         <title>Quote Vault: {% block title %}{% endblock %}</title>
-
-
-
-        <script>
-            function showAlert(message) {
-                if (message) {
-                    alert(message);
-                }
-            }
-
-            function getQuote() {
-                fetch("/quote")
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Error fetching quote");
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById("quote").innerText = data.quote;
-                        document.getElementById("author").innerText = data.author;
-                        const heartButton = document.querySelector(".heart-button");
-                        heartButton.classList.remove("active");
-                    })
-                    .catch(error => {
-                        document.getElementById("quote").innerText = "Couldn't fetch quote.";
-                        document.getElementById("author").innerText = "";
-                        console.error(error);
-                    })
-            }
-            /*
-            function toggleHeart() {
-                const heart = document.querySelector(".heart-button");
-                heart.classList.toggle("active");
-
-                if (heart.classList.contains("active")) {
-                    console.log("Heart is clicked!");
-                } else {
-                    console.log("Heart is unclocked");
-                }
-            }
-                */
-
-            function toggleFavorite(isActive) {
-                const quoteText = document.getElementById("quote").textContent;
-                const authorText = document.getElementById("author").textContent;
-                const heartButton = document.querySelector(".heart-button");
-                
-                if (isActive) {
-                    heartButton.classList.add("active")
-                    console.log("Heart is clicked!");
-                } else {
-                    heartButton.classList.remove("active");
-                    console.log("Heart is unclicked!");
-                }
-                /*heartButton.classList.toggle("active");*/
-                
-                /*const isActive = heartButton.classList.contains("active");*/
-
-                fetch("/toggle_favorite", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        quote: quoteText,
-                        author: authorText,
-                        action: isActive ? "add" : "remove"
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        heartButton.classList.toggle("active");
-                        console.error("Failed to toggle favorite.");
-                    }
-                })
-            }
-
-            function handleHeartButtonClick() {
-                const heartButton = document.querySelector(".heart-button")
-                const isActive = heartButton.classList.contains("active")
-                toggleFavorite(!isActive);
-            }
-            
-            function escapeSelector(string) {
-                // Remove backslashes before escaping special characters
-                const cleanedString = string.replace(/\\/g, ''); // Remove all backslashes
-                return cleanedString.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g, '\\$1'); // Escape special characters
-            }
-
-            function removeFavorite(favoriteData, buttonId) {
-                /*
-                const qText = quote.replace(/^"|"$/g, '');  // Removes leading and trailing double quotes
-                const aText = author.replace(/^"|"$/g, ''); 
-                */
-                /*
-                const qText = fa.getAttribute("data-quote")
-                const aText = button.getAttribute("data-author")
-                */
-
-                const qText = favoriteData.quote; // Destructure to get quote
-                const aText = favoriteData.author;
-                console.log("Quote being sent for removal:", qText);
-                console.log("Author being sent for removal:", aText);
-
-                /*
-                console.log("Quote being sent for removal:", qText);
-                console.log("Author being sent for removal:", aText);
-*/
-
-                fetch("/toggle_favorite", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        quote: qText,
-                        author: aText,
-                        action: "remove" // Always removing since this button is for removal
-                    })
-                })
-                
-                .then(response => {
-                    if (response.ok) {
-                        console.log("Favorite removed successfully.");
-                        // Remove the card from the DOM
-                        const cardElement = document.getElementById(buttonId).closest('.col');
-                        if (cardElement) {
-                            cardElement.remove(); // Remove the parent card
-                            console.log("Card removed from the DOM.");
-                        } else {
-                            console.error("Card not found in the DOM.");
-                        }
-                    } else {
-                        console.error("Failed to remove favorite.");
-                        // Handle the error appropriately
-                    }
-                });
-                
-                
-            }
-        </script>
     </head>
 
     <body>
@@ -170,7 +28,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbar">
+                <div class="collapse navbar-collapse" id="navbarNav">
                     {% if session["user_id"] %}
                         <ul class="navbar-nav">
                             <li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a></li>
@@ -187,22 +45,6 @@
                 </div>
             </div>
         </nav>
-
-        <div id="jumbo" class="jumbotron mx-auto text-center">
-            <div class="container-fluid">
-                <h1 class="display-4" id="title">{% block jumbo_title %}{% endblock %}</h1>
-                <p class="lead" id="jumbo_message">{% block jumbo_message %}{% endblock %}</p>
-                <hr class="my-4">
-            </div>
-        </div>
-
-        {% if get_flashed_messages() %}
-            <header>
-                <div class="alert alert-primary mb-0 text-center" role="alert">
-                    {{ get_flashed_messages() | join(" ") }}
-                </div>
-            </header>
-        {% endif %}
 
         <main class="container py-5 text-center">
             {% block main %}{% endblock %}
@@ -227,7 +69,7 @@
                 });
             </script>
         </footer>
-
+        <script type="text/javascript" src="../static/functions.js"></script>
     </body>
 
 </html>

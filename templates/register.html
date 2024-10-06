@@ -5,6 +5,13 @@
 {% endblock %}
 
 {% block main %}
+    <div id="jumbo" class="jumbotron mx-auto text-center">
+        <div class="container-fluid">
+            <h1 class="display-4" id="register_title">Register</h1>
+            <p class="lead" id="register_message">Welcome to the Vault</p>
+        </div>
+    </div>
+
     <form action="/register" method="post">
         <div class="mb-3">
             <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">

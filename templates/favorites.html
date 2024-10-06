@@ -4,10 +4,17 @@
 Favorites
 {% endblock %}
 
-{% block jumbo_title %}Favorites{% endblock %}
-{% block jumbo_message %}Enjoy &#128513;{% endblock %}
+
 
 {% block main %}
+
+    <div id="jumbo" class="jumbotron mx-auto text-center">
+        <div class="container-fluid">
+            <h1 class="display-4" id="favorites_title">Favorites</span></h1>
+            <p class="lead" id="favorites_message">Enjoy &#128513;</p>
+            <hr class="my-4">
+        </div>
+    </div>
 
     <div class="favorites-container">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">

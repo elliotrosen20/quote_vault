@@ -5,27 +5,6 @@
 {% endblock %}
 
 {% block main %}
-    <!--
-    <form action="/login" method="post">
-        <div class="mb-3">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
-        </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
-    </form>
-    <p id="registerText" class="text-center mt-1">
-        Don't have an account? <a href="register.html" id="register">Register Here.</a>
-    </p>
-    <script>
-        // Call showAlert when the page loads
-        window.onload = function() {
-            showAlert("{{ error|e }}");
-        };
-    </script>
--->
-
     <div class = "container">
         <div class="left-content">
             <h1>Welcome to Quote Vault</h1>
@@ -44,7 +23,7 @@
                 <button id="login_button" class="btn btn-primary" type="submit">Log In</button>
             </form>
             <p id="registerText" class="text-center mt-1">
-                Don't have an account? <a href="register.html" id="register">Register Here.</a>
+                Don't have an account? <a href="/register" id="register">Register Here.</a>
             </p>
         </div>
     </div>
